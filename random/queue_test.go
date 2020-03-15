@@ -3,7 +3,6 @@ package random
 import (
 	"fmt"
 	"math/rand"
-	"sort"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -20,7 +19,6 @@ func TestNewQueue(t *testing.T) {
 func ExampleNewQueue() {
 	rand.Seed(0)
 	q := NewQueue(10, 3)
-	sort.Ints(q)
 	fmt.Println(q)
 
 	// Output:

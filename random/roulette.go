@@ -55,7 +55,7 @@ func (r *Roulette) init() {
 		// 后面的值进行偏移,扩大面积
 		add := 0
 		for i := range r.list {
-			r.list[i][0] = r.list[i][0] + add
+			r.list[i][0] += add
 			add = r.list[i][0]
 		}
 		// 最大值
@@ -63,7 +63,7 @@ func (r *Roulette) init() {
 	}
 }
 
-// Take 旋转轮盘获取
+// Take 旋转轮盘按照积分概率获取
 func (r *Roulette) Take() Scorer {
 	r.init()
 	s := rand.Intn(r.max)
@@ -75,7 +75,7 @@ func (r *Roulette) Take() Scorer {
 	return r.Scores[0]
 }
 
-// NewRoulette 新建轮盘赌
+// NewRoulette 新建轮盘
 func NewRoulette(scores []Scorer) *Roulette {
 	ret := &Roulette{Scores: scores}
 	ret.init()

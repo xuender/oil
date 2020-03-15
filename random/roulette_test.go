@@ -2,6 +2,7 @@ package random
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"testing"
 
@@ -42,19 +43,20 @@ func ExampleNewRoulette() {
 	fmt.Println(arr)
 
 	// 计算比例
-	// m := map[int]int{2: 0, 4: 0, 10: 0}
-	// for i := 0; i < 10000; i++ {
-	// 	r := rand.Intn(10)
-	// 	if r < 2 {
-	// 		m[2]++
-	// 	} else if r < 4 {
-	// 		m[4]++
-	// 	} else {
-	// 		m[10]++
-	// 	}
-	// }
-	// fmt.Println(m)
+	m := map[int]int{2: 0, 4: 0, 10: 0}
+	for i := 0; i < 10000; i++ {
+		r := rand.Intn(10)
+		if r < 2 {
+			m[2]++
+		} else if r < 4 {
+			m[4]++
+		} else {
+			m[10]++
+		}
+	}
+	fmt.Println(math.Round(float64(m[2])/1000), math.Round(float64(m[4])/1000), math.Round(float64(m[10])/1000))
 
 	// Output:
 	// [2 4 10]
+	// 2 2 6
 }
