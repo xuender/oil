@@ -7,7 +7,7 @@ import (
 	"github.com/xuender/oil/integer"
 )
 
-// Roulette 轮盘
+// Roulette 轮盘选择
 type Roulette struct {
 	Scores []Scorer
 	list   [][2]int
@@ -23,9 +23,9 @@ func (r *Roulette) Add(score ...Scorer) {
 }
 
 // init 初始化轮盘
-func (r *Roulette) init() {
+func (r *Roulette) init() bool {
 	if len(r.Scores) == 0 {
-		return
+		return false
 	}
 	if r.list == nil || len(r.list) != len(r.Scores) {
 		// 轮盘初始化
@@ -61,18 +61,21 @@ func (r *Roulette) init() {
 		// 最大值
 		r.max = r.list[len(r.list)-1][0]
 	}
+	return true
 }
 
 // Take 旋转轮盘按照积分概率获取
 func (r *Roulette) Take() Scorer {
-	r.init()
+	if !r.init() {
+		return nil
+	}
 	s := rand.Intn(r.max)
 	for _, l := range r.list {
 		if s < l[0] {
 			return r.Scores[l[1]]
 		}
 	}
-	return r.Scores[0]
+	return nil
 }
 
 // NewRoulette 新建轮盘

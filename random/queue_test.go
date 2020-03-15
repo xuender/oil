@@ -15,6 +15,9 @@ func TestNewQueue(t *testing.T) {
 	assert.Contains(t, q, 3, "3")
 	assert.Contains(t, q, 4, "4")
 	assert.Contains(t, q, 6, "6")
+
+	s := NewQueue(3, 4)
+	assert.Equal(t, 3, len(s), "队列长度")
 }
 func ExampleNewQueue() {
 	rand.Seed(0)

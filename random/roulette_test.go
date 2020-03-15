@@ -2,11 +2,11 @@ package random
 
 import (
 	"fmt"
-	"math"
 	"math/rand"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/xuender/oil/integer"
 )
 
 type TestInt struct {
@@ -18,18 +18,18 @@ func (t TestInt) Score() int {
 }
 
 func TestRoulette_Take(t *testing.T) {
-	rand.Seed(3)
-	r := NewRoulette([]Scorer{TestInt{score: 2}, TestInt{score: 1}, TestInt{score: 7}})
-	assert.Equal(t, 7, r.Take().(TestInt).score, "0")
-	assert.Equal(t, 7, r.Take().(TestInt).score, "1")
-	assert.Equal(t, 7, r.Take().(TestInt).score, "2")
-	assert.Equal(t, 1, r.Take().(TestInt).score, "3")
-	assert.Equal(t, 7, r.Take().(TestInt).score, "4")
+	rand.Seed(2)
+	r := NewRoulette([]Scorer{TestInt{score: 2}, TestInt{score: 1}, TestInt{score: 3}})
+	assert.Equal(t, 3, r.Take().(TestInt).score, "0")
+	assert.Equal(t, 1, r.Take().(TestInt).score, "1")
+	assert.Equal(t, 1, r.Take().(TestInt).score, "2")
+	assert.Equal(t, 2, r.Take().(TestInt).score, "3")
+	assert.Equal(t, 2, r.Take().(TestInt).score, "4")
 	assert.Equal(t, 2, r.Take().(TestInt).score, "5")
-	assert.Equal(t, 7, r.Take().(TestInt).score, "6")
-	assert.Equal(t, 7, r.Take().(TestInt).score, "7")
-	assert.Equal(t, 7, r.Take().(TestInt).score, "8")
-	assert.Equal(t, 7, r.Take().(TestInt).score, "9")
+	assert.Equal(t, 3, r.Take().(TestInt).score, "6")
+	assert.Equal(t, 1, r.Take().(TestInt).score, "7")
+	assert.Equal(t, 2, r.Take().(TestInt).score, "8")
+	assert.Equal(t, 1, r.Take().(TestInt).score, "9")
 }
 
 // 轮盘的原理
@@ -54,9 +54,19 @@ func ExampleNewRoulette() {
 			m[10]++
 		}
 	}
-	fmt.Println(math.Round(float64(m[2])/1000), math.Round(float64(m[4])/1000), math.Round(float64(m[10])/1000))
+	fmt.Println(integer.Div(m[2], 1000), integer.Div(m[4], 1000), integer.Div(m[10], 1000))
 
 	// Output:
 	// [2 4 10]
 	// 2 2 6
+}
+
+func TestRoulette_Add(t *testing.T) {
+	rand.Seed(3)
+	r := NewRoulette([]Scorer{TestInt{score: -2}, TestInt{score: -7}})
+	r.Add()
+	r.Add(TestInt{score: 1})
+	assert.Equal(t, -7, r.Take().(TestInt).score, "0")
+	e := NewRoulette([]Scorer{})
+	assert.Nil(t, e.Take(), "nil")
 }
