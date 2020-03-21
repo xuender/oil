@@ -16,6 +16,13 @@ const _size = 800
 // 默认边距
 const _margin = 40
 
+func round(num int) int {
+	if num < 100 {
+		return num
+	}
+	return integer.Div(num, 10) * 10
+}
+
 // Polyline 折线图
 func Polyline(data []int, style ...int) string {
 	if len(data) < 2 {
@@ -60,7 +67,7 @@ func Polyline(data []int, style ...int) string {
 	// 垂线
 	vertical := make([]line, 5)
 	for i := 1; i < 5; i++ {
-		vertical[i-1] = line{x: integer.Div(bw*dataWidth/5*i, 10)*10 + _margin}
+		vertical[i-1] = line{x: round(dataWidth*bw*i/5) + _margin}
 	}
 	// 最后一条
 	vertical[4] = line{x: width - _margin/2}
@@ -73,7 +80,7 @@ func Polyline(data []int, style ...int) string {
 	// 水平线
 	horizontal := make([]line, 5)
 	for i := 0; i < 5; i++ {
-		horizontal[i] = line{y: integer.Div(dataHeight/5*i, 10)*10*bh + _margin/2}
+		horizontal[i] = line{y: round(dataHeight*i/5)*bh + _margin/2}
 	}
 	horizontal[0] = line{y: _margin / 2}
 	hl := ""
@@ -86,7 +93,7 @@ func Polyline(data []int, style ...int) string {
 	texts := make([]text, 12)
 	for i := 0; i < 5; i++ {
 		texts[i] = text{
-			v:      integer.Div((len(data)/5)*(i+1), 10) * 10,
+			v:      round(len(data) / 5 * (i + 1)),
 			x:      vertical[i].x,
 			y:      height - 6,
 			anchor: "middle",
@@ -95,7 +102,7 @@ func Polyline(data []int, style ...int) string {
 	texts[4].v = len(data)
 	for i := 0; i < 5; i++ {
 		texts[i+5] = text{
-			v:      integer.Div((dataHeight/5)*(5-i)+min, 10) * 10,
+			v:      round(dataHeight*(5-i)/5) + min,
 			x:      _margin - 5,
 			y:      horizontal[i].y + 5,
 			anchor: "end",
@@ -107,12 +114,12 @@ func Polyline(data []int, style ...int) string {
 	texts[10] = text{v: min, anchor: "end", x: _margin - 5, y: height - _margin/2 - 3}
 	// 零线
 	if min < 0 && max > 0 {
-		texts[11] = text{v: 0, anchor: "end", x: _margin - 5, y: (dataHeight+min)*bh + _margin/2 + 5}
+		texts[11] = text{v: 0, anchor: "start", x: _margin + 5, y: (dataHeight+min)*bh + _margin/2 - 5}
 	}
 	vt := ""
 	for _, t := range texts {
 		vt += fmt.Sprintf(`<text x="%d" y="%d" text-anchor="%s">%d</text>`, t.x, t.y, t.anchor, t.v)
 	}
 	textAxis := fmt.Sprintf(`<g fill="grey" stroke="transparent">%s</g>`, vt)
-	return fmt.Sprintf(_svg, width, height, scaleAxis, baseAxis, dataArea, textAxis)
+	return fmt.Sprintf(_svg, width, height, scaleAxis, baseAxis, textAxis, dataArea)
 }
