@@ -36,6 +36,9 @@ func Polyline(data []int, style ...int) string {
 	// 数据高度
 	dataHeight := max - min
 	bw := integer.Div(_size, dataWidth)
+	if bw == 0 {
+		bw = 1
+	}
 	bh := integer.Div(_size, dataHeight)
 	width := bw*dataWidth + _margin*3/2
 	height := bh*dataHeight + _margin
@@ -45,8 +48,7 @@ func Polyline(data []int, style ...int) string {
 	for i, d := range data {
 		points[i] = fmt.Sprintf("%d,%d", i, (d-max)*-1)
 	}
-	// transform="translate(40,40) scale(8,8)"
-	dataArea := fmt.Sprintf(`<g transform="translate(40,20) scale(%d,%d)" fill="none" stroke="blue" stroke-width="1"><polyline points="%s"/></g>`, bw, bh, strings.Join(points, " "))
+	dataArea := fmt.Sprintf(`<g transform="translate(40,20) scale(%d,%d)" fill="none" stroke="chocolate" stroke-width="1"><polyline points="%s"/></g>`, bw, bh, strings.Join(points, " "))
 	// 零线
 	zero := ""
 	if min < 0 && max > 0 {
@@ -71,7 +73,7 @@ func Polyline(data []int, style ...int) string {
 	// 水平线
 	horizontal := make([]line, 5)
 	for i := 0; i < 5; i++ {
-		horizontal[i] = line{y: integer.Div(bh*dataHeight/5*i, 10)*10 + _margin/2}
+		horizontal[i] = line{y: integer.Div(dataHeight/5*i, 10)*10*bh + _margin/2}
 	}
 	horizontal[0] = line{y: _margin / 2}
 	hl := ""
@@ -112,5 +114,5 @@ func Polyline(data []int, style ...int) string {
 		vt += fmt.Sprintf(`<text x="%d" y="%d" text-anchor="%s">%d</text>`, t.x, t.y, t.anchor, t.v)
 	}
 	textAxis := fmt.Sprintf(`<g fill="grey" stroke="transparent">%s</g>`, vt)
-	return fmt.Sprintf(_svg, width, height, dataArea, scaleAxis, baseAxis, textAxis)
+	return fmt.Sprintf(_svg, width, height, scaleAxis, baseAxis, dataArea, textAxis)
 }
