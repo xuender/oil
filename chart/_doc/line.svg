@@ -1,0 +1,15 @@
+<?xml version="1.0" standalone="no"?><svg version="1.1"  width="800" height="800" xmlns="http://www.w3.org/2000/svg">
+<g fill="none" stroke="black" stroke-width="1">
+<line x1="0" y1="760" x2="100%" y2="760"/>
+<line x1="40" y1="0" x2="40" y2="100%"/>
+</g>
+<g fill="grey" stroke="grey" stroke-dasharray="6" stroke-width="1">
+  <text x="8" y="314">0</text>
+<line x1="0" y1="314" x2="100%" y2="314"/>
+<line x1="0" y1="200" x2="100%" y2="200"/>
+<line x1="100" y1="0" x2="100" y2="100%"/>
+</g>
+<g transform="translate(20,20) scale(8,8)" fill="none" stroke="blue" stroke-width="1">
+  <polyline points="0,50 10,40 20,1 30,10 40,8 50,16"/>
+</g>
+</svg>
