@@ -2,7 +2,6 @@ package random
 
 import (
 	"math/rand"
-	"sort"
 )
 
 // Queue 随机队列
@@ -30,6 +29,7 @@ func NewQueue(max, size int) Queue {
 		ints[i] = num
 		i++
 	}
-	sort.Ints(ints)
+	// 单一职责 不应排序
+	// sort.Ints(ints)
 	return ints
 }
