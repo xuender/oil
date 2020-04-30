@@ -1,19 +1,25 @@
 package math
 
-// PascalTriangle 帕斯卡三角
+import "github.com/xuender/oil/integer"
+
+// PascalTriangle 帕斯卡三角非递归
 func PascalTriangle(layer int) []int {
-	if layer < 1 {
+	if layer < 0 {
 		return []int{}
 	}
-	ret := make([]int, layer)
+	ret := make([]int, layer+1)
 	ret[0] = 1
-	if len(ret) == 1 {
-		return ret
+	for c := 0; c < layer; c++ {
+		ret[c+1] = ret[c] * (layer - c) / (c + 1)
 	}
-	old := PascalTriangle(layer - 1)
-	for i := 1; i < len(old); i++ {
-		ret[i] = old[i] + old[i-1]
-	}
-	ret[len(old)] = 1
 	return ret
+}
+
+// PascalSum 帕斯卡三角求和
+func PascalSum(layer, num int) int {
+	pt := PascalTriangle(layer)
+	if layer > num {
+		return integer.Sum(pt[num:]...)
+	}
+	return integer.Sum(pt...)
 }
