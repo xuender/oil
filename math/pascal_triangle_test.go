@@ -71,20 +71,65 @@ func ExamplePascalTriangle() {
 
 func ExamplePascalSum() {
 	/*
-				赌徒费马和帕斯卡，每一盘里，他俩的赢的机会相等。
-				他俩各拿出相同金额的钱作为赌注，约定谁先赢到某个（假设是10）盘数，赌注就全部归谁。
-				不料，这时发生了某事，他们必须结束赌局并离开。
-				此时，两个人谁也没赢到10盘，那么这个赌注的钱应该怎么分呢？
-				当然，此时赢得多的人应该相应地拿的赌注多。
-				可是，多少才算是公平呢？
+		赌徒费马和帕斯卡，每一盘里，他俩的赢的机会相等。
+		他俩各拿出相同金额的钱作为赌注，约定谁先赢到某个（假设是10）盘数，赌注就全部归谁。
+		不料，这时发生了某事，他们必须结束赌局并离开。
+		此时，两个人谁也没赢到10盘，那么这个赌注的钱应该怎么分呢？
+		当然，此时赢得多的人应该相应地拿的赌注多。
+		可是，多少才算是公平呢？
 
-				当赌局进行到 费马8比帕斯卡7
-		    还需要最多4盘才能决出胜负
-		    费马需要胜利2次，帕斯卡需要胜利3次
+		当赌局进行到 费马8比帕斯卡7
+		还需要最多4盘才能决出胜负
+		费马需要胜利2次，帕斯卡需要胜利3次
 	*/
-	sum := PascalSum(4, 4)
+	sum := PascalSum(4, 0)
 	fmt.Printf("费马=%d/%d, 帕斯卡=%d/%d\n", PascalSum(4, 2), sum, PascalSum(4, 3), sum)
 
 	// Output:
 	// 费马=11/16, 帕斯卡=5/16
+}
+
+func TestPascalSum(t *testing.T) {
+	type args struct {
+		layer int
+		num   int
+	}
+	tests := []struct {
+		name string
+		args args
+		want int
+	}{
+		{
+			name: "0",
+			args: args{layer: 4, num: 0},
+			want: 16,
+		},
+		{
+			name: "1",
+			args: args{layer: 4, num: 1},
+			want: 15,
+		},
+		{
+			name: "2",
+			args: args{layer: 4, num: 2},
+			want: 11,
+		},
+		{
+			name: "3",
+			args: args{layer: 4, num: 3},
+			want: 5,
+		},
+		{
+			name: "4",
+			args: args{layer: 4, num: 4},
+			want: 1,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := PascalSum(tt.args.layer, tt.args.num); got != tt.want {
+				t.Errorf("PascalSum() = %v, want %v", got, tt.want)
+			}
+		})
+	}
 }

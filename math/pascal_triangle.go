@@ -18,8 +18,8 @@ func PascalTriangle(layer int) []int {
 // PascalSum 帕斯卡三角求和
 func PascalSum(layer, num int) int {
 	pt := PascalTriangle(layer)
-	if layer > num {
-		return integer.Sum(pt[num:]...)
+	if num > layer {
+		return integer.Sum(pt...)
 	}
-	return integer.Sum(pt...)
+	return integer.Sum(pt[num:]...)
 }
