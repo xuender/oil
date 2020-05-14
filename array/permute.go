@@ -1,9 +1,9 @@
-package permute
+package array
 
 import "sort"
 
-// Lexicographic 字典序法
-func Lexicographic(n int, callback func([]int) error) {
+// Permute Lexicographic 字典序法,排列
+func Permute(n int, callback func([]int) error) {
 	nums := make([]int, n)
 	for i := 0; i < n; i++ {
 		nums[i] = i

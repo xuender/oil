@@ -1,12 +1,13 @@
-package permute
+package array
 
 import "fmt"
 
-func ExampleLexicographic() {
-	Lexicographic(3, func(array []int) error {
+func ExamplePermute() {
+	Permute(3, func(array []int) error {
 		fmt.Println(array)
 		return nil
 	})
+
 	// Output:
 	// [0 1 2]
 	// [0 2 1]
