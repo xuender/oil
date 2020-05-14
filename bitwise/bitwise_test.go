@@ -44,7 +44,7 @@ func TestBitwise_Slice(t *testing.T) {
 func TestBitwise_String(t *testing.T) {
 	b := New()
 	b.Add(12)
-	b.Reset()
+	b.Shrink()
 	if !b.In(12) {
 		t.Error("Reset错误")
 	}

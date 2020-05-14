@@ -35,7 +35,7 @@ func (b *Bitwise) Del(nums ...int) {
 	}
 }
 
-// Slice 切片
+// Slice 转换切片
 func (b *Bitwise) Slice() []int {
 	s := make([]int, b.OnesCount())
 	i := 0
@@ -50,12 +50,12 @@ func (b *Bitwise) Slice() []int {
 
 // String 转换字符串
 func (b *Bitwise) String() string {
-	b.Reset()
+	b.Shrink()
 	return fmt.Sprintf("%X", *b)
 }
 
-// Reset 重置
-func (b *Bitwise) Reset() {
+// Shrink 收缩
+func (b *Bitwise) Shrink() {
 	size := len(*b) - 1
 	for i := size; i >= 0; i-- {
 		if bits.OnesCount8((*b)[i]) > 0 {
