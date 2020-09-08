@@ -3,6 +3,8 @@ package basex
 import (
 	"fmt"
 	"unsafe"
+
+	"github.com/xuender/oil/str"
 )
 
 // Encoding base
@@ -20,9 +22,7 @@ func NewEncoding(encoder string) *Encoding {
 			panic("encoding alphabet contains newline character")
 		}
 	}
-	encode := make([]byte, len(encoder))
-	copy(encode, encoder)
-	e := &Encoding{encode: encode}
+	e := &Encoding{encode: str.Union(encoder)}
 	return e
 }
 
