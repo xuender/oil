@@ -1,6 +1,8 @@
 package integer
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func ExampleBase57() {
 	s, _ := Base57.ToString(2020)
@@ -18,4 +20,15 @@ func ExampleBase57() {
 	// mwofPep
 	// 2020
 	// 1599526164937
+}
+
+func ExampleBase64() {
+	s, _ := Base64.ToString(2020)
+	fmt.Println(s)
+	s, _ = Base64.ToString(1599526164937)
+	fmt.Println(s)
+
+	// Output:
+	// kf
+	// JnFMrRX
 }
