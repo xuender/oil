@@ -10,6 +10,7 @@ go get -u github.com/xuender/oil
 
 ## doc
 
+* [example](_example/README.md)
 * [array](array/README.md)
 * [basex](basex/README.md) 整数编码
 * [bitwise](bitwise/README.md) 位运算
