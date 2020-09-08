@@ -63,6 +63,9 @@ func (enc *Encoding) uint64ToString(num uint64) string {
 		ret = append(ret, enc.encode[num%l])
 		num = num / l
 	}
+	if len(ret) == 0 {
+		ret = append(ret, enc.encode[0])
+	}
 	return string(ret)
 }
 func (enc *Encoding) index(b byte) (uint64, error) {
