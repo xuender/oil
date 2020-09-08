@@ -2,6 +2,14 @@
 
 golang library
 
+## install
+
+```shell
+go get -u github.com/xuender/oil
+```
+
+## doc
+
 * [array](array/README.md)
 * [basex](basex/README.md) 整数编码
 * [bitwise](bitwise/README.md) 位运算
