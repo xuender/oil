@@ -42,6 +42,8 @@ func (enc *Encoding) ToString(num interface{}) (string, error) {
 		n = uint64(num.(int16))
 	case int32:
 		n = uint64(num.(int32))
+	case int64:
+		n = uint64(num.(int64))
 	case uint:
 		n = uint64(num.(uint))
 	case uint16:
