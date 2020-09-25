@@ -2,13 +2,18 @@ package str
 
 import "fmt"
 
-const minute = int64(60000000000)
-const hour = minute * 60
-const day = hour * 24
+const (
+	microsecond = int64(1000)
+	millisecond = microsecond * 1000
+	second      = millisecond * 1000
+	minute      = second * 60
+	hour        = minute * 60
+	day         = hour * 24
+)
 
 // Time 纳秒转换成时间
 func Time(ns int64) string {
-	if ns >= int64(100000000) {
+	if ns >= second {
 		// 超过0.1秒以后才考虑分钟、小时、天
 		if ns >= day {
 			d := ns % day
@@ -33,10 +38,10 @@ func Time(ns int64) string {
 		}
 		return fmt.Sprintf("%.3v秒", float64(ns)/1000000000)
 	}
-	if ns >= int64(100000) {
+	if ns >= millisecond {
 		return fmt.Sprintf("%.3v毫秒", float64(ns)/1000000)
 	}
-	if ns >= int64(100) {
+	if ns >= microsecond {
 		return fmt.Sprintf("%.3v微妙", float64(ns)/1000)
 	}
 	return fmt.Sprintf("%d纳秒", ns)
