@@ -1,3 +1,15 @@
+/*
+Package bitwise 提供位运算工具.
+
+创建一个[]byte对象，使用位记录int数组,
+可通过 Add 和 Del等方法修改记录,
+
+最终通过 Slice 或 String 输出结果.
+
+Quick Start
+
+自行阅读代码.
+*/
 package bitwise
 
 import (
