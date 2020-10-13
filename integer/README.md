@@ -10,5 +10,6 @@
 * [ints](ints.go) 字符串转换成正整数数组
 * [max](max.go) 取最大值
 * [min](min.go) 取最小值
+* [Stack](stack.go) 栈
 * [string](string.go) 整数数组转换字符串
 * [sum](sum.go) 求和
