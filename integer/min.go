@@ -8,5 +8,6 @@ func Min(nums ...int) int {
 			min = n
 		}
 	}
+
 	return min
 }

@@ -2,6 +2,8 @@ package str
 
 import "errors"
 
+var errStackIsEmpty = errors.New("Stack is Empty")
+
 // Stack 栈
 type Stack struct {
 	size int
@@ -28,7 +30,9 @@ func (s *Stack) Push(data ...string) {
 	if s.IsEmpty() {
 		s.data = []string{}
 	}
+
 	realSize := len(s.data)
+
 	if s.size == realSize {
 		s.data = append(s.data, data...)
 	} else {
@@ -41,22 +45,25 @@ func (s *Stack) Push(data ...string) {
 			}
 		}
 	}
+
 	s.size += len(data)
 }
 
 // Pop 出栈
 func (s *Stack) Pop() (string, error) {
 	if s.IsEmpty() {
-		return "", errors.New("stack is empty")
+		return "", errStackIsEmpty
 	}
 	s.size--
+
 	return s.data[s.size], nil
 }
 
 // Top 栈顶数据
 func (s *Stack) Top() (string, error) {
 	if s.IsEmpty() {
-		return "", errors.New("stack is empty")
+		return "", errStackIsEmpty
 	}
+
 	return s.data[s.size-1], nil
 }

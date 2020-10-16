@@ -28,6 +28,7 @@ func round(num int) int {
 	if num < 100 {
 		return num
 	}
+
 	return integer.Div(num, 10) * 10
 }
 
@@ -36,12 +37,15 @@ func Polyline(data []int, style ...int) string {
 	if len(data) < 2 {
 		return fmt.Sprintf(_svg, _size, _size, "", "", "", "")
 	}
+
 	min := integer.MaxInt
 	max := integer.MinInt
+
 	for _, d := range data {
 		if min > d {
 			min = d
 		}
+
 		if max < d {
 			max = d
 		}
@@ -51,18 +55,21 @@ func Polyline(data []int, style ...int) string {
 	// 数据高度
 	dataHeight := max - min
 	bw := integer.Div(_size, dataWidth)
+
 	if bw == 0 {
 		bw = 1
 	}
+
 	bh := integer.Div(_size, dataHeight)
 	width := bw*dataWidth + _margin*3/2
 	height := bh*dataHeight + _margin
-
 	// 数据
 	points := make([]string, len(data))
+
 	for i, d := range data {
 		points[i] = fmt.Sprintf("%d,%d", i, (d-max)*-1)
 	}
+
 	dataArea := fmt.Sprintf(`<g transform="translate(40,20) scale(%d,%d)" fill="none" stroke="chocolate" stroke-width="1"><polyline points="%s"/></g>`, bw, bh, strings.Join(points, " "))
 	// 零线
 	zero := ""
@@ -74,6 +81,7 @@ func Polyline(data []int, style ...int) string {
 
 	// 垂线
 	vertical := make([]line, 5)
+
 	for i := 1; i < 5; i++ {
 		vertical[i-1] = line{x: round(dataWidth*bw*i/5) + _margin}
 	}
@@ -81,24 +89,29 @@ func Polyline(data []int, style ...int) string {
 	vertical[4] = line{x: width - _margin/2}
 	// 垂线
 	vl := ""
+
 	for _, v := range vertical {
 		vl += fmt.Sprintf(`<line x1="%d" y1="0" x2="%d" y2="%d"/>`, v.x, v.x, height-_margin/2)
 	}
 
 	// 水平线
 	horizontal := make([]line, 5)
+
 	for i := 0; i < 5; i++ {
 		horizontal[i] = line{y: round(dataHeight*i/5)*bh + _margin/2}
 	}
+
 	horizontal[0] = line{y: _margin / 2}
 	hl := ""
+
 	for _, h := range horizontal {
 		hl += fmt.Sprintf(`<line x1="%d" y1="%d" x2="100%%" y2="%d"/>`, _margin, h.y, h.y)
 	}
-	scaleAxis := fmt.Sprintf(`<g stroke="grey" stroke-dasharray="6" stroke-width="0.5">%s%s</g>`, hl, vl)
 
+	scaleAxis := fmt.Sprintf(`<g stroke="grey" stroke-dasharray="6" stroke-width="0.5">%s%s</g>`, hl, vl)
 	// 文字
 	texts := make([]text, 12)
+
 	for i := 0; i < 5; i++ {
 		texts[i] = text{
 			v:      round(len(data) / 5 * (i + 1)),
@@ -107,7 +120,9 @@ func Polyline(data []int, style ...int) string {
 			anchor: "middle",
 		}
 	}
+
 	texts[4].v = len(data)
+
 	for i := 0; i < 5; i++ {
 		texts[i+5] = text{
 			v:      round(dataHeight*(5-i)/5) + min,
@@ -124,10 +139,14 @@ func Polyline(data []int, style ...int) string {
 	if min < 0 && max > 0 {
 		texts[11] = text{v: 0, anchor: "start", x: _margin + 5, y: (dataHeight+min)*bh + _margin/2 - 5}
 	}
+
 	vt := ""
+
 	for _, t := range texts {
 		vt += fmt.Sprintf(`<text x="%d" y="%d" text-anchor="%s">%d</text>`, t.x, t.y, t.anchor, t.v)
 	}
+
 	textAxis := fmt.Sprintf(`<g fill="grey" stroke="transparent">%s</g>`, vt)
+
 	return fmt.Sprintf(_svg, width, height, scaleAxis, baseAxis, textAxis, dataArea)
 }

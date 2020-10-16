@@ -18,6 +18,7 @@ func TestPow(t *testing.T) {
 		{name: "3**2", args: args{3, 2}, want: 9},
 		{name: "3**3", args: args{3, 3}, want: 27},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := Pow(tt.args.x, tt.args.y); got != tt.want {

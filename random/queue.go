@@ -14,17 +14,22 @@ func NewQueue(max, size int) Queue {
 		for i := 0; i < max; i++ {
 			ret[i] = i
 		}
+
 		return ret
 	}
+
 	ints := make(Queue, size)
 	m := map[int]bool{}
+
 	for {
 		m[rand.Intn(max)] = true
 		if len(m) >= size {
 			break
 		}
 	}
+
 	i := 0
+
 	for num := range m {
 		ints[i] = num
 		i++

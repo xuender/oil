@@ -9,9 +9,11 @@ import (
 func ExamplePolyline() {
 	rand.Seed(0)
 	data := make([]int, 1000)
+
 	for i := range data {
 		data[i] = (i + 1) / 200 * 200
 	}
+
 	for i := 0; i < 50; i++ {
 		data[rand.Intn(800)+200] = rand.Intn(100)
 	}

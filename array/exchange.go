@@ -15,6 +15,7 @@ func (e *Exchange) Next() bool {
 		e.init = false
 		return true
 	}
+
 	return e.add(len(e.data) - 1)
 }
 
@@ -23,14 +24,17 @@ func (e *Exchange) add(num int) bool {
 	if num < 0 || num >= len(e.data) {
 		return false
 	}
+
 	if e.curr[num] < e.data[num]-1 {
 		e.curr[num]++
 		return true
 	}
+
 	if e.add(num - 1) {
 		e.curr[num] = 0
 		return true
 	}
+
 	return false
 }
 
@@ -42,6 +46,7 @@ func (e *Exchange) Value() []int {
 // NewExchange 创建交换组合
 func NewExchange(data []int) *Exchange {
 	curr := make([]int, len(data))
+
 	return &Exchange{
 		data: data,
 		curr: curr,

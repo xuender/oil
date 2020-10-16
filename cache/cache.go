@@ -23,6 +23,7 @@ type Cache struct {
 func (c *Cache) Set(key, value interface{}) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
+
 	c.data[key] = value
 	c.access[key] = time.Now().Add(c.Expire)
 }
@@ -31,6 +32,7 @@ func (c *Cache) Set(key, value interface{}) {
 func (c *Cache) SetByTime(key, value interface{}, expire time.Time) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
+
 	c.data[key] = value
 	c.access[key] = expire
 }
@@ -39,6 +41,7 @@ func (c *Cache) SetByTime(key, value interface{}, expire time.Time) {
 func (c *Cache) SetByDuration(key, value interface{}, expire time.Duration) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
+
 	c.data[key] = value
 	c.access[key] = time.Now().Add(expire)
 }
@@ -48,9 +51,11 @@ func (c *Cache) Get(key interface{}) (interface{}, bool) {
 	c.lock.RLock()
 	value, ok := c.data[key]
 	c.lock.RUnlock()
+
 	if c.LRU {
 		c.Reset(key)
 	}
+
 	return value, ok
 }
 
@@ -59,6 +64,7 @@ func (c *Cache) GetString(key interface{}) (string, bool) {
 	if value, ok := c.Get(key); ok {
 		return value.(string), ok
 	}
+
 	return "", false
 }
 
@@ -66,6 +72,7 @@ func (c *Cache) GetString(key interface{}) (string, bool) {
 func (c *Cache) Reset(key interface{}) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
+
 	if a, ok := c.access[key]; ok {
 		e := time.Now().Add(c.Expire)
 		if e.After(a) {
@@ -78,23 +85,27 @@ func (c *Cache) Reset(key interface{}) {
 func (c *Cache) Keys() []interface{} {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
+
 	keys := make([]interface{}, len(c.data))
 	i := 0
+
 	for k := range c.data {
 		keys[i] = k
 		i++
 	}
-	return keys
 
+	return keys
 }
 
 // Del key.
 func (c *Cache) Del(key interface{}) {
 	c.lock.Lock()
 	defer c.lock.Unlock()
+
 	if value, ok := c.data[key]; ok {
 		c.Callback(key, value)
 	}
+
 	delete(c.data, key)
 	delete(c.access, key)
 }
@@ -110,12 +121,15 @@ func (c *Cache) Clean(overdue time.Time) {
 func (c *Cache) Overdue(overdue time.Time) []interface{} {
 	c.lock.RLock()
 	defer c.lock.RUnlock()
+
 	keys := []interface{}{}
+
 	for key, v := range c.access {
 		if overdue.After(v) {
 			keys = append(keys, key)
 		}
 	}
+
 	return keys
 }
 
@@ -134,12 +148,15 @@ func NewCache(expire time.Duration, LRU ...bool) *Cache {
 		Expire:   expire,
 		Callback: func(key, value interface{}) {},
 	}
+
 	if len(LRU) > 0 {
 		cache.LRU = LRU[0]
 	}
+
 	if len(caches) == 0 {
 		go func() {
 			ticker := time.NewTicker(1 * time.Second)
+
 			for now := range ticker.C {
 				for _, c := range caches {
 					c.Clean(now)
@@ -147,7 +164,9 @@ func NewCache(expire time.Duration, LRU ...bool) *Cache {
 			}
 		}()
 	}
+
 	caches = append(caches, cache)
+
 	return cache
 }
 
@@ -155,5 +174,6 @@ func NewCache(expire time.Duration, LRU ...bool) *Cache {
 func NewCallbackCache(expire time.Duration, callback func(key, value interface{}), LRU ...bool) *Cache {
 	cache := NewCache(expire, LRU...)
 	cache.Callback = callback
+
 	return cache
 }
