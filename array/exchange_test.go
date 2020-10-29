@@ -4,6 +4,7 @@ import "fmt"
 
 func ExampleExchange() {
 	e := NewExchange([]int{2, 3, 2})
+
 	for e.Next() {
 		fmt.Println(e.Value())
 	}

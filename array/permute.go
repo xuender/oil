@@ -15,12 +15,14 @@ func Permute(n int, callback func([]int) error) {
 		}
 
 		pos := -1
+
 		for i := n - 1; i > 0; i-- {
 			if nums[i] > nums[i-1] {
 				pos = i
 				break
 			}
 		}
+
 		if pos == -1 {
 			break
 		}

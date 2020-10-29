@@ -20,29 +20,38 @@ func Time(ns int64) string {
 			if d > 0 {
 				return fmt.Sprintf("%d天%s", ns/day, Time(d))
 			}
+
 			return fmt.Sprintf("%d天", ns/day)
 		}
+
 		if ns >= hour {
 			m := ns % hour
 			if m > 0 {
 				return fmt.Sprintf("%d小时%s", ns/hour, Time(m))
 			}
+
 			return fmt.Sprintf("%d小时", ns/hour)
 		}
+
 		if ns >= minute {
 			s := ns % minute
 			if s > 0 {
 				return fmt.Sprintf("%d分钟%s", ns/minute, Time(s))
 			}
+
 			return fmt.Sprintf("%d分钟", ns/minute)
 		}
+
 		return fmt.Sprintf("%.3v秒", float64(ns)/1000000000)
 	}
+
 	if ns >= millisecond {
 		return fmt.Sprintf("%.3v毫秒", float64(ns)/1000000)
 	}
+
 	if ns >= microsecond {
 		return fmt.Sprintf("%.3v微秒", float64(ns)/1000)
 	}
+
 	return fmt.Sprintf("%d纳秒", ns)
 }

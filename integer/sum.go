@@ -6,5 +6,6 @@ func Sum(nums ...int) int {
 	for _, n := range nums {
 		ret += n
 	}
+
 	return ret
 }

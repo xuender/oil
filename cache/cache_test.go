@@ -36,6 +36,7 @@ func TestCache(t *testing.T) {
 func BenchmarkCacheSize(b *testing.B) {
 	cache := NewCache(20 * time.Second)
 	b.ResetTimer()
+
 	for n := 0; n < b.N; n++ {
 		cache.Size()
 	}
@@ -44,6 +45,7 @@ func BenchmarkCacheSize(b *testing.B) {
 func BenchmarkCachePut(b *testing.B) {
 	cache := NewCache(20 * time.Second)
 	b.ResetTimer()
+
 	for n := 0; n < b.N; n++ {
 		cache.Set("key1", "value1")
 	}
@@ -52,6 +54,7 @@ func BenchmarkCachePut(b *testing.B) {
 func BenchmarkMapPut(b *testing.B) {
 	cache := map[string]string{}
 	b.ResetTimer()
+
 	for n := 0; n < b.N; n++ {
 		cache["key1"] = "value1"
 	}

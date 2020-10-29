@@ -36,6 +36,7 @@ func TestRoulette_Take(t *testing.T) {
 func ExampleNewRoulette() {
 	arr := []int{2, 2, 6}
 	add := 0
+
 	for i := range arr {
 		arr[i] = arr[i] + add
 		add = arr[i]
@@ -44,6 +45,7 @@ func ExampleNewRoulette() {
 
 	// 计算比例
 	m := map[int]int{2: 0, 4: 0, 10: 0}
+
 	for i := 0; i < 10000; i++ {
 		r := rand.Intn(10)
 		if r < 2 {

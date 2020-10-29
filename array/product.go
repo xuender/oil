@@ -2,6 +2,11 @@ package array
 
 import "errors"
 
+var (
+	errNum    = errors.New("num should be greater then 0")
+	errRepeat = errors.New("len should be greater then 0")
+)
+
 // Product is carthesian product
 // https://en.wikipedia.org/wiki/Cartesian_product
 type Product struct {
@@ -14,11 +19,11 @@ type Product struct {
 // NewProduct is constructor
 func NewProduct(num, repeat int) (*Product, error) {
 	if repeat < 1 {
-		return nil, errors.New("len should be greater then 0")
+		return nil, errRepeat
 	}
 
 	if num < 1 {
-		return nil, errors.New("num should be greater then 0")
+		return nil, errNum
 	}
 
 	currPosition := make([]int, repeat)
@@ -32,14 +37,14 @@ func NewProduct(num, repeat int) (*Product, error) {
 
 // Next generates the next value for product
 func (p *Product) Next() bool {
-	if p.init == false {
+	if !p.init {
 		p.init = true
 		return true
 	}
 
 	maxIndex := p.num - 1
-
 	numberMaxIndexes := 0
+
 	for i := p.repeat - 1; i >= 0; i-- {
 		if p.currPositions[i] == maxIndex {
 			numberMaxIndexes++

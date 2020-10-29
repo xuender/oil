@@ -17,6 +17,7 @@ func TestCeil(t *testing.T) {
 		{name: "5/2", args: args{dividend: 5, divisor: 2}, want: 3},
 		{name: "10/3", args: args{dividend: 10, divisor: 3}, want: 4},
 	}
+
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := Ceil(tt.args.dividend, tt.args.divisor); got != tt.want {

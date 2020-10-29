@@ -25,10 +25,12 @@ func (b *Bitwise) Add(nums ...int) {
 	for _, n := range nums {
 		size := n/_size + 1
 		l := len(*b)
+
 		if l < size {
 			nb := make([]byte, size-l)
 			*b = append(*b, nb...)
 		}
+
 		(*b)[n/_size] |= (1 << (n % _size))
 	}
 }
@@ -40,6 +42,7 @@ func (b *Bitwise) Del(nums ...int) {
 		if size >= len(*b) {
 			continue
 		}
+
 		(*b)[size] |= (1 << (n % _size))
 		(*b)[size] ^= (1 << (n % _size))
 	}
@@ -49,12 +52,14 @@ func (b *Bitwise) Del(nums ...int) {
 func (b *Bitwise) Slice() []int {
 	s := make([]int, b.OnesCount())
 	i := 0
+
 	for n := 0; n < len(*b)*_size; n++ {
 		if b.In(n) {
 			s[i] = n
 			i++
 		}
 	}
+
 	return s
 }
 
@@ -67,12 +72,15 @@ func (b *Bitwise) String() string {
 // Shrink 收缩
 func (b *Bitwise) Shrink() {
 	size := len(*b) - 1
+
 	for i := size; i >= 0; i-- {
 		if bits.OnesCount8((*b)[i]) > 0 {
 			if i == size {
 				return
 			}
+
 			*b = (*b)[:i+1]
+
 			return
 		}
 	}
