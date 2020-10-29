@@ -42,7 +42,7 @@ func Time(ns int64) string {
 		return fmt.Sprintf("%.3v毫秒", float64(ns)/1000000)
 	}
 	if ns >= microsecond {
-		return fmt.Sprintf("%.3v微妙", float64(ns)/1000)
+		return fmt.Sprintf("%.3v微秒", float64(ns)/1000)
 	}
 	return fmt.Sprintf("%d纳秒", ns)
 }
